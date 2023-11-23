@@ -9,4 +9,4 @@ Artisan::command('inspire', function () {
 
 Artisan::command('hello', function () {
     $this->comment('Hey');
-});
+})->purpose('says hey');
