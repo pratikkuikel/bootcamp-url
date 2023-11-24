@@ -16,8 +16,10 @@ Route::group(['prefix' => 'auth'], function () {
         return 'hey';
     });
 
-    Route::get('/', [HomepageController::class, 'index']);
 });
+
+Route::get('/', [HomepageController::class, 'index']);
+
 
 
 // Route::get('/', function () {
