@@ -1,29 +1,22 @@
 <?php
 
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomepageController;
-use App\Models\Contact;
+use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
-
-Route::group(['prefix' => 'auth'], function () {
-
-    Route::get('urls', function () {
-        return view('urls');
-    });
-
-    Route::get('/middleware-test', function () {
-        return 'hey';
-    });
-
-});
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 
-Route::get('contact',[ContactController::class,'index']);
+// list all urls
+Route::get('/urls', [UrlController::class, 'index'])->name('urls');
 
-Route::post('/submit-contact',[ContactController::class,'store'])->name('contact.submit');
+// create new url
+Route::get('/urls/create', [UrlController::class, 'create'])->name('urls.create');
 
+// store a new url
+Route::post('/urls/create', [UrlController::class, 'store']);
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Edit existing url
+Route::get('/urls/edit/{id}', [UrlController::class, 'edit'])->name('urls.edit');
+
+// update existing url
+Route::post('/urls/edit/{id}', [UrlController::class, 'update']);
