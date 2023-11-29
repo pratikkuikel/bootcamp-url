@@ -56,6 +56,30 @@ class UrlController extends Controller
         $url->original_url = $request->url;
         $url->save();
 
+        $request->session()->flash('success', 'Url was updated successfully!');
+
         return redirect()->action([UrlController::class, 'index']);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $url = Url::findOrFail($id);
+        $url->delete();
+        $request->session()->flash('success', 'Url was deleted successfully!');
+        return redirect()->action([UrlController::class, 'index']);
+    }
+
+    public function redirect(Request $request, $short_url)
+    {
+        // dd($short_url);
+        // $query = Url::query();
+        // $url = $query->where('short_url', $short_url)->first();
+        // dd($query);
+
+        $url = Url::where("short_url", $short_url)->first();
+        if ($url) {
+            return redirect()->away($url->original_url);
+        }
+        abort(404);
     }
 }
