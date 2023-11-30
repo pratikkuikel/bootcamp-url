@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Url;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,6 +13,12 @@ class UrlController extends Controller
     {
         $urls = Url::all();
         return view('urls.index', compact('urls'));
+    }
+
+    public function view($id)
+    {
+        $url = Url::findOrFail($id);
+        return view('urls.view', compact('url'));
     }
 
     public function create()
@@ -71,6 +78,7 @@ class UrlController extends Controller
 
     public function redirect(Request $request, $short_url)
     {
+        // dd($request->userAgent());
         // dd($short_url);
         // $query = Url::query();
         // $url = $query->where('short_url', $short_url)->first();
@@ -78,6 +86,16 @@ class UrlController extends Controller
 
         $url = Url::where("short_url", $short_url)->first();
         if ($url) {
+            // record ip and user agent
+            Visitor::create([
+                'url_id' => $url->id,
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent()
+            ]);
+            // $url->visitor_count++;
+            // $url->save();
+            // increment visitor count
+            $url->increment('visitor_count');
             return redirect()->away($url->original_url);
         }
         abort(404);

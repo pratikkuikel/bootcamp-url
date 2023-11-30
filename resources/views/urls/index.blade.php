@@ -24,6 +24,7 @@
                     <td>{{ $url->original_url }}</td>
                     <td>{{ $url->short_url }}</td>
                     <td><a href="{{ route('urls.edit', ['id' => $url->id]) }}">Edit</td>
+                    <td><a href="{{ route('urls.view', ['id' => $url->id]) }}">View</td>
                     <td>
                         <form action="{{ route('urls.destroy', $url->id) }}" method="POST">
                             @csrf

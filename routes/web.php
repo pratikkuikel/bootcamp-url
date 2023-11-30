@@ -10,6 +10,9 @@ Route::get('/', [HomepageController::class, 'index'])->name('home');
 // list all urls
 Route::get('/urls', [UrlController::class, 'index'])->name('urls');
 
+// view individual url
+Route::get('/urls/{id}', [UrlController::class, 'view'])->name('urls.view');
+
 // create new url
 Route::get('/urls/create', [UrlController::class, 'create'])->name('urls.create');
 
