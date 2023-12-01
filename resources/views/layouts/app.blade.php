@@ -9,7 +9,13 @@
 </head>
 
 <body>
-
+    @guest
+        <nav>
+            <li><a href="{{ route('login') }}">Login</a></li>
+            <li><a href="{{ route('auth.register') }}">Register</a></li>
+        </nav>
+    @endguest
+    <br>
     @yield('content')
 
 </body>

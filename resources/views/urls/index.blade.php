@@ -1,3 +1,4 @@
+{{-- @dd(Session::all()) --}}
 @extends('layouts.app')
 
 @section('content')

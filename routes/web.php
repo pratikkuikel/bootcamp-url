@@ -1,9 +1,16 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
 
+// Authentication Routes
+Route::get('register', [AuthController::class, 'register_page'])->name('auth.register');
+Route::post('register',[AuthController::class, 'register']);
+
+Route::get('login', [AuthController::class, 'login_page'])->name('login');
+Route::post('login',[AuthController::class, 'login']);
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 

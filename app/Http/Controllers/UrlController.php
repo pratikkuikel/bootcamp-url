@@ -11,6 +11,7 @@ class UrlController extends Controller
 {
     public function index()
     {
+        // auth()->logout();
         $urls = Url::all();
         return view('urls.index', compact('urls'));
     }
