@@ -15,6 +15,14 @@
             <li><a href="{{ route('auth.register') }}">Register</a></li>
         </nav>
     @endguest
+    @auth
+        <nav>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit">Logout , {{ auth()->user()->name }}</button>
+            </form>
+        </nav>
+    @endauth
     <br>
     @yield('content')
 

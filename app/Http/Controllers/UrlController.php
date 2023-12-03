@@ -11,8 +11,13 @@ class UrlController extends Controller
 {
     public function index()
     {
-        // auth()->logout();
-        $urls = Url::all();
+        // $urls = Url::all();
+        // get urls created by currently authenticated user
+        // $urls = auth()->user()->urls;
+        // $userId = auth()->user()->id;
+        // $urls = Url::where('user_id', $userId)->get();
+        $user = auth()->user();
+        $urls = $user->urls;
         return view('urls.index', compact('urls'));
     }
 
@@ -36,6 +41,8 @@ class UrlController extends Controller
         // dd($request);
         $random_string = Str::random(8);
         Url::create([
+            'user_id' => auth()->user()->id,
+            // 'user_id' => auth()->id(),
             'original_url' => $request->url,
             'short_url' => $random_string
         ]);

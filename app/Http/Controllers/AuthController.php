@@ -65,4 +65,10 @@ class AuthController extends Controller
 
         // dd(session());
     }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        return redirect()->route('home');
+    }
 }
