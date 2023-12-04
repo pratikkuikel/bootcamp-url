@@ -6,6 +6,7 @@ use App\Models\Url;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class UrlController extends Controller
 {
@@ -17,6 +18,7 @@ class UrlController extends Controller
         // $userId = auth()->user()->id;
         // $urls = Url::where('user_id', $userId)->get();
         $user = auth()->user();
+        Log::error($user);
         $urls = $user->urls;
         return view('urls.index', compact('urls'));
     }
@@ -24,6 +26,9 @@ class UrlController extends Controller
     public function view($id)
     {
         $url = Url::findOrFail($id);
+        if ($url->user_id != auth()->id()) {
+            abort(401);
+        }
         return view('urls.view', compact('url'));
     }
 
@@ -51,7 +56,16 @@ class UrlController extends Controller
 
     public function edit($id)
     {
+        // $user_id = auth()->id();
+        // $query = Url::where('user_id', $user_id)
+        //     ->where('id', $id)->first();
+        // if (!$query) {
+        //     abort(401);
+        // }
         $url = Url::findOrFail($id);
+        if ($url->user_id != auth()->id()) {
+            abort(401);
+        }
         // dd($url);
         return view('urls.edit', compact('url'));
     }
@@ -63,6 +77,10 @@ class UrlController extends Controller
         ]);
         // dd($request, $id);
         $url = Url::findOrFail($id);
+
+        if ($url->user_id != auth()->id()) {
+            abort(401);
+        }
 
         // $url->update([
         //     'original_url' => $request->url,
@@ -79,6 +97,9 @@ class UrlController extends Controller
     public function destroy(Request $request, $id)
     {
         $url = Url::findOrFail($id);
+        if ($url->user_id != auth()->id()) {
+            abort(401);
+        }
         $url->delete();
         $request->session()->flash('success', 'Url was deleted successfully!');
         return redirect()->action([UrlController::class, 'index']);
