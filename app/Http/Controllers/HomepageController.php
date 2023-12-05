@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class HomepageController extends Controller
 {
@@ -25,7 +26,11 @@ class HomepageController extends Controller
             'file' => 'required|image'
         ]);
 
-        $path = $request->file('file')->store();
+        $path = $request->file('file')->store('public');
+
+        // $qualified_url = Storage::url($path);
+
+        // dd($path,$qualified_url);
 
         return redirect()->back()->with('path',$path);
     }

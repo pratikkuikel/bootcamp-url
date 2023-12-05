@@ -19,6 +19,7 @@
     @if (Session::has('path'))
     <div>
         <img src="{{ Storage::url(Session::get('path')) }}">
+        {{-- <img src="{{ asset(Session::get('path')) }}"> --}}
     </div>
     @endif
 @endsection

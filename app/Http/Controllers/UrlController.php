@@ -7,6 +7,8 @@ use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\CreateUrlRequest;
+use App\Http\Requests\UpdateUrlRequest;
 
 class UrlController extends Controller
 {
@@ -37,11 +39,11 @@ class UrlController extends Controller
         return view('urls.create');
     }
 
-    public function store(Request $request)
+    public function store(CreateUrlRequest $request)
     {
-        $request->validate([
-            'url' => 'url|max:2048'
-        ]);
+        // $request->validate([
+        //     'url' => 'url|max:2048'
+        // ]);
 
         // dd($request);
         $random_string = Str::random(8);
@@ -54,7 +56,7 @@ class UrlController extends Controller
         return redirect()->action([UrlController::class, 'index']);
     }
 
-    public function edit($id)
+    public function edit(UpdateUrlRequest $request, $id)
     {
         // $user_id = auth()->id();
         // $query = Url::where('user_id', $user_id)
@@ -63,25 +65,14 @@ class UrlController extends Controller
         //     abort(401);
         // }
         $url = Url::findOrFail($id);
-        if ($url->user_id != auth()->id()) {
-            abort(401);
-        }
         // dd($url);
         return view('urls.edit', compact('url'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUrlRequest $request, $id)
     {
-        $request->validate([
-            'url' => 'url|max:2048'
-        ]);
         // dd($request, $id);
         $url = Url::findOrFail($id);
-
-        if ($url->user_id != auth()->id()) {
-            abort(401);
-        }
-
         // $url->update([
         //     'original_url' => $request->url,
         // ]);
