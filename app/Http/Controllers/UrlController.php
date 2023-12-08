@@ -14,15 +14,17 @@ class UrlController extends Controller
 {
     public function index()
     {
+        // abort(404);
         // $urls = Url::all();
         // get urls created by currently authenticated user
         // $urls = auth()->user()->urls;
         // $userId = auth()->user()->id;
         // $urls = Url::where('user_id', $userId)->get();
-        $user = auth()->user();
-        Log::error($user);
-        $urls = $user->urls;
-        return view('urls.index', compact('urls'));
+        $user_id = auth()->id();
+        // Log::error($user);
+        $urls = Url::where('user_id', $user_id)->paginate(10);
+        $count = Url::where('user_id', $user_id)->count();
+        return view('urls.index', compact('urls', 'count'));
     }
 
     public function view($id)

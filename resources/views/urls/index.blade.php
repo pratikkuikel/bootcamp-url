@@ -10,10 +10,12 @@
         <br>
     @endif
     List all your urls here
+    Total urls : {{ $count }}
     <br>
     <div>
         <table>
             <tr>
+                <th>Index</th>
                 <th>Id</th>
                 <th>Original Url</th>
                 <th>Short Url</th>
@@ -21,6 +23,7 @@
             </tr>
             @foreach ($urls as $url)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $url->id }}</td>
                     <td>{{ $url->original_url }}</td>
                     <td>{{ $url->short_url }}</td>
@@ -35,6 +38,9 @@
                 </tr>
             @endforeach
         </table>
+        <div>
+            {{ $urls->links('vendor.pagination.custom') }}
+        </div>
     </div>
     {{-- @dd(Session::all()) --}}
 @endsection
