@@ -15,6 +15,9 @@ Route::post('login', [AuthController::class, 'login']);
 // Logout route
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('profile', [AuthController::class, 'profile'])->name('profile');
+Route::post('profile', [AuthController::class, 'update_profile']);
+
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {

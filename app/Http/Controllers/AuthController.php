@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -28,9 +29,11 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
+            // 'password' => bcrypt($request->password),
+            // 'password' => Hash::make($request->password)
         ]);
 
-        return redirect()->route('login')->with('success','Registered sucessfully !');
+        return redirect()->route('login')->with('success', 'Registered sucessfully !');
 
         // Auth::login($user);
 
@@ -70,5 +73,24 @@ class AuthController extends Controller
     {
         auth()->logout();
         return redirect()->route('home');
+    }
+
+    public function profile()
+    {
+        return view('profile');
+    }
+
+    public function update_profile(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $user = auth()->user();
+        $user->name = $request->name;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile Updated Successfully !');
     }
 }

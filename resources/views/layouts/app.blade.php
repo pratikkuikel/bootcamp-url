@@ -16,6 +16,7 @@
         </nav>
     @endguest
     @auth
+    <li><a href="{{ route('profile') }}">Profile</a></li>
         <nav>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
