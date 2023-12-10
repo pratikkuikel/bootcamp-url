@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\CreateUrlRequest;
 use App\Http\Requests\UpdateUrlRequest;
+use App\Events\UrlCreation;
 
 class UrlController extends Controller
 {
@@ -22,7 +23,7 @@ class UrlController extends Controller
         // $urls = Url::where('user_id', $userId)->get();
         $user_id = auth()->id();
         // Log::error($user);
-        $urls = Url::where('user_id', $user_id)->paginate(10);
+        $urls = Url::where('user_id', $user_id)->paginate(50);
         $count = Url::where('user_id', $user_id)->count();
         return view('urls.index', compact('urls', 'count'));
     }
@@ -49,12 +50,13 @@ class UrlController extends Controller
 
         // dd($request);
         $random_string = Str::random(8);
-        Url::create([
-            'user_id' => auth()->user()->id,
+        $url = Url::create([
+            // 'user_id' => auth()->user()->id,
             // 'user_id' => auth()->id(),
             'original_url' => $request->url,
             'short_url' => $random_string
         ]);
+        UrlCreation::dispatch($url);
         return redirect()->action([UrlController::class, 'index']);
     }
 
