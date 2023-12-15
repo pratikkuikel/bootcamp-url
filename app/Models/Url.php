@@ -24,11 +24,11 @@ class Url extends Model
             $item->visitor_count = 100;
         });
 
-        static::created(function ($item) {
-            Log::info('Deleting the record');
-            // 'user_id' => auth()->user()->id,
-            $item->delete();
-        });
+        // static::created(function ($item) {
+        //     Log::info('Deleting the record');
+        //     // 'user_id' => auth()->user()->id,
+        //     $item->delete();
+        // });
     }
 
     public function visitors(): HasMany

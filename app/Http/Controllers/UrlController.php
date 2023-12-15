@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\CreateUrlRequest;
 use App\Http\Requests\UpdateUrlRequest;
 use App\Events\UrlCreation;
+use App\Jobs\SendUrlCreatedMailJob;
 use App\Mail\UrlCreatedMail;
 use App\Mail\UrlCreatedMarkdownMail;
 use Illuminate\Support\Facades\Mail;
@@ -88,6 +89,7 @@ class UrlController extends Controller
         // Mail::to($user)->send(new UrlCreatedMail($url));
         // Mail::to($user)->send(new UrlCreatedMarkdownMail($url));
         // UrlCreation::dispatch($url);
+        SendUrlCreatedMailJob::dispatch($user, $url);
         return redirect()->action([UrlController::class, 'index']);
     }
 
