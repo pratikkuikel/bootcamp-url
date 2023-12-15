@@ -2,8 +2,14 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\HttpController;
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
+
+
+// Test Http client
+Route::get('/http', [HttpController::class, 'index']);
+Route::get('/post', [HttpController::class, 'post_request']);
 
 // Authentication Routes
 Route::get('register', [AuthController::class, 'register_page'])->name('auth.register');
@@ -50,3 +56,4 @@ Route::post('file-upload', [HomepageController::class, 'upload']);
 
 // routes for short url
 Route::get('/{short_url}', [UrlController::class, 'redirect']);
+
