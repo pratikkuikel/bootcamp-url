@@ -5,7 +5,17 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\HttpController;
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
+use Carbon\Carbon;
 
+Route::get('/datetime', function () {
+    $date = new Carbon('first day of December 2016');
+    // $date = Carbon::now();
+    // $date->today();
+    $manipulated_date = $date->shortAbsoluteDiffForHumans();
+
+    // $date = Carbon::tomorrow();
+    return $manipulated_date;
+});
 
 // Test Http client
 Route::get('/http', [HttpController::class, 'index']);
@@ -56,4 +66,3 @@ Route::post('file-upload', [HomepageController::class, 'upload']);
 
 // routes for short url
 Route::get('/{short_url}', [UrlController::class, 'redirect']);
-

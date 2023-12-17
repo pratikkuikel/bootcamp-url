@@ -101,6 +101,7 @@ class UrlController extends Controller
         // if (!$query) {
         //     abort(401);
         // }
+        Log::info('here');
         $url = Url::findOrFail($id);
         // dd($url);
         return view('urls.edit', compact('url'));

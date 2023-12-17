@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Joke;
+use Exception;
+use Illuminate\Http\Client\ConnectionException;
 
 class HttpController extends Controller
 {
     public function index()
     {
-        $response = Http::get('https://official-joke-api.appspot.com/random_joke');
+        // try {
+            $response = Http::get('https://official-joke-api.appspot');
+        // } catch (ConnectionException $e) {
+            // abort(404);
+            // throw new TestException();
+        // }
         $response = json_decode($response->body());
         $joke = new Joke();
         $joke->type = $response->type;
