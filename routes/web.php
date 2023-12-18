@@ -6,6 +6,8 @@ use App\Http\Controllers\HttpController;
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 Route::get('/datetime', function () {
     $date = new Carbon('first day of December 2016');
@@ -31,12 +33,30 @@ Route::post('login', [AuthController::class, 'login']);
 // Logout route
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('profile', [AuthController::class, 'profile'])->name('profile');
-Route::post('profile', [AuthController::class, 'update_profile']);
-
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 
-Route::middleware('auth')->group(function () {
+// email verification routes
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/urls');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+
+    Route::get('profile', [AuthController::class, 'profile'])->name('profile');
+    Route::post('profile', [AuthController::class, 'update_profile']);
 
     // list all urls
     Route::get('/urls', [UrlController::class, 'index'])->name('urls');
