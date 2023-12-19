@@ -69,6 +69,8 @@ class AuthController extends Controller
             return redirect()->intended('urls')->with('success', 'Logged in successfully !');
         }
 
+        return 'email or password is incorrect !';
+
         // dd(session());
     }
 

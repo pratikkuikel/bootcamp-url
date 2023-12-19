@@ -17,6 +17,8 @@
         @enderror
         <input type="text" name="password">
         <br>
+        <a class="bg-blue-500 hover:bg-blue-700" href="{{ route('password.request') }}">Forgot password </a>
+        <br>
         <button type="submit">Login</button>
     </form>
 @endsection
