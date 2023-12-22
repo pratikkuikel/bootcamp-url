@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\TestException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Joke;
-use Exception;
-use Illuminate\Http\Client\ConnectionException;
 
 class HttpController extends Controller
 {

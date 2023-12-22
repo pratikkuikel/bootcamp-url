@@ -9,11 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\CreateUrlRequest;
 use App\Http\Requests\UpdateUrlRequest;
-use App\Events\UrlCreation;
 use App\Jobs\SendUrlCreatedMailJob;
-use App\Mail\UrlCreatedMail;
-use App\Mail\UrlCreatedMarkdownMail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 
 class UrlController extends Controller
